@@ -53,7 +53,7 @@ void solve(){
 	for(long long i=2;i<=N;i++){
 		tri[i]=(i*(i+1))/2;
 		int NUM=factors(tri[i]);
-		fout<<i<<" "<<tri[i]<<" "<<NUM<<endl;
+		//fout<<i<<" "<<tri[i]<<" "<<NUM<<endl;
 		if(NUM>=500)    	//if number of factors >= 500    
 			break;
 	}
@@ -75,11 +75,11 @@ then D(N)=(a1+1)*(a2+1)*.... ...*(ai+1)
 
 So we can use a prepared prime array to do prime expression first, then calculate the D(N).                                         
 */
-const int MAX_P= 10000; //10000 primes , would this be enough? 
+const int MAX_P= 2000; //number of primes generated 
 int primes[MAX_P+1];
 void generate_primes(){
 	//using prime sieve to generate MAX_P primes
-	const int MAX_N=1000000; 
+	const int MAX_N=100000; 
 	bool temp[MAX_N+1];
 	memset(temp,1,sizeof(temp));
 	int count=1;
@@ -136,17 +136,69 @@ void better(){
 /*
 Can We do better? II
 N=1+2+3+... ...+n, N=n*(n+1)/2
-
+so, we can just calculate the factor numbers of n and (n+1)/2,(if n+1 is even) . 
+D(N)=D(n)*D((n+1)/2) if n+1 is even;
+D(N)=D(n/2)*D(n+1) if n is even. 
+n is much smaller than N. 
+We can use the similar method, to calculate D(n) or D(n+1),etc, then we can get D(N)
+the prime array used here can be much smaller than the last one. 
 */
 void besser(){
+	generate_primes();
+	int count=1; int i=2;
+	long long N;
+	while(count<500){
+		count=1;
+		int x,y;
+		if(i%2==0){
+			x=i/2;
+			y=i+1;
+		}else{
+			x=(i+1)/2;
+			y=i;
+		}
+		N=x*y;
+		int xcount=1;
+		while(x>1){
+		//calculate the prime expressions of y 
+			int j=1;
+			while(x%primes[j]!=0){
+				j++;
+			}
+			int t=1;
+			while(x%primes[j]==0){
+				x/=primes[j];
+				t++;
+			}
+			xcount*=t;	
+		}
 	
+		int ycount=1;
+		while(y>1){
+			//calculate the prime expression of y
+			int k=1;
+			while(y%primes[k]!=0){
+				k++;
+			}
+			int m=1;
+			while(y%primes[k]==0){
+				y/=primes[k];
+				m++;
+			}
+			ycount*=m;
+		}
+		
+		count=xcount*ycount;
+		i++;	
+	}
+	
+	cout<<N;
 }
 
 
 using namespace std;
 
-int main(){;
-	better();
-	fout.close();
+int main(){
+	besser();
 	return 0;
 }
