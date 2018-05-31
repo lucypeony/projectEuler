@@ -25,34 +25,35 @@ Brute force :
 
 using namespace std; 
 
+
 const int MAX_NUM = 28121;
 const int MAX_PRIME = 28121;
 vector<int> create_primes() {
 	vector<int> res;
-	bool tarray[MAX_PRIME+1];
+	bool tarray[MAX_PRIME + 1];
 	memset(tarray, 1, sizeof(tarray));
 
-	int count = MAX_PRIME-2;
+	int count = MAX_PRIME - 2;
 	tarray[1] = false;
 	int start = 2;
 	while (count > 0) {
 		int i = 2;
 		while (i*start <= MAX_PRIME) {
-			tarray[i*start] = false;
-			i++;
-			count--;
-			//cout << count << endl;
+			int temp = i * start;
+			if (tarray[temp]) {
+				tarray[temp] = false;
+				count--;
+			}
+				i++;
 		}
 		start++;
 		while (!tarray[start])
 		{
 			start++;
 		}
-		cout << start << endl;
-
-		count--;	
+		count--;
 	}
-	
+
 	for (int k = 2; k <= MAX_PRIME; k++)
 		if (tarray[k])
 			res.push_back(k);
@@ -61,18 +62,68 @@ vector<int> create_primes() {
 }
 
 
-int sum_of_divisors(int n) {
-	int res = 0;
-	
-	return res; 
+int sum_of_divisors(int num,vector<int> primes) {
+	int res = 1;
+	int n = num;
+	for (auto a : primes) {
+		int t = 1;
+		int res1 = 1;
+		while (n%a == 0 && n>1) {
+			t *= a;
+			res1 += t;
+			n /= a;
+		}
+		res *= res1;
+
+		if (n <= 1)
+			break;
+	}
+	return res-num; 
 }
 
-void brute_force() {
+
+vector<int> brute_force() {
+	vector<int> non_abundant_sum;
+	vector<int> primes = create_primes();
+
+	//create abundant number vector
+	vector<int> abundant;
+	for (int i = 12; i <= MAX_NUM; i++) {
+		if (sum_of_divisors(i, primes) > i)
+			abundant.push_back(i);
+	}
+
+	bool sums[MAX_NUM + 1]; //the array that stores the nums created by sums of abundant vectors 
+	memset(sums, 0, sizeof(sums));
+	for (auto a : abundant) {
+		for (auto b : abundant) {
+			int temp = a + b;
+			if (temp >= 1 && temp <= MAX_NUM)
+				if (!sums[temp])
+					sums[temp] = true;
+		}
+	}
+
+	for (int i = 1; i <= MAX_NUM; i++)
+		if (!sums[i])
+			non_abundant_sum.push_back(i);
+
+	return non_abundant_sum;
 
 }
+
 
 
 int main() {
-	brute_force();
+	ofstream fout("p23.out");
+	vector<int> res = brute_force();
+	fout << res.size() << endl;
+	long long total = 0;
+	for (auto a : res) {
+		fout << a << endl;
+		total += a;
+	}
+	fout << total << endl;
+	fout.close();
 	return 0;
 }
