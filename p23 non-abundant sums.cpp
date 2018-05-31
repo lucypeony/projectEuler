@@ -25,6 +25,42 @@ Brute force :
 
 using namespace std; 
 
+const int MAX_NUM = 28121;
+const int MAX_PRIME = 28121;
+vector<int> create_primes() {
+	vector<int> res;
+	bool tarray[MAX_PRIME+1];
+	memset(tarray, 1, sizeof(tarray));
+
+	int count = MAX_PRIME-2;
+	tarray[1] = false;
+	int start = 2;
+	while (count > 0) {
+		int i = 2;
+		while (i*start <= MAX_PRIME) {
+			tarray[i*start] = false;
+			i++;
+			count--;
+			//cout << count << endl;
+		}
+		start++;
+		while (!tarray[start])
+		{
+			start++;
+		}
+		cout << start << endl;
+
+		count--;	
+	}
+	
+	for (int k = 2; k <= MAX_PRIME; k++)
+		if (tarray[k])
+			res.push_back(k);
+
+	return res;
+}
+
+
 int sum_of_divisors(int n) {
 	int res = 0;
 	
