@@ -1,7 +1,6 @@
 /*
 lucypeony@hotmail.com
-
-Euler Project Problem 26 Reciprocal cycles 
+Euler Project Problem 26 Reciprocal cycles
 description :
 A unit fraction contains 1 in the numerator. The decimal representation of the unit fractions with denominators 2 to 10 are given:
 1/2	= 	0.5
@@ -17,6 +16,8 @@ Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. It can be see
 Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 ---------------------------------------------------------------------------------------------------------------
 this code is a mess . try to clean it up later
+
+this problem asks for the value of d, if 1/d contains the longest recurring cycle in its decimal fraction part. not the length itself. :(. Well. wel. not the first time I made this type of mistakes. 
 */
 #include<string>
 #include<vector>
@@ -35,7 +36,7 @@ string divide1(int n) {
 	int remainder;
 	int dividend = 1;
 
-	const int DIGITS = 2000;
+	const int DIGITS = 4000;
 	int count = 1;
 
 	do {
@@ -58,11 +59,9 @@ string divide1(int n) {
 	return res;
 }
 
-void test() {
-	fout << divide1(998) << endl;
-}
 
 //return the length of reciprocal cycles of 1/n
+//need to be more accurate . 
 int cycle_length(int n) {
 	int len = 0;
 	vector<int> rem; //store remainders 
@@ -71,13 +70,13 @@ int cycle_length(int n) {
 	int remainder;
 	int dividend = 1;
 
-	const int DIGITS = 2000;
+	const int DIGITS = 4000;
 	int count = 1;
 
 	if (dividend < n) {
 		dividend *= 10;
 	}
-		
+
 
 	while (dividend < n) {
 		dividend *= 10;
@@ -90,7 +89,7 @@ int cycle_length(int n) {
 
 	rem.push_back(remainder);
 
-	while (remainder != 0 && count <= DIGITS){
+	while (remainder != 0 && count <= DIGITS) {
 		dividend = remainder;
 		count++;
 		if (dividend < n)
@@ -102,9 +101,9 @@ int cycle_length(int n) {
 		}
 
 		quotient = dividend / n;
-		
+
 		remainder = dividend % n;
-		
+
 		vector<int>::iterator it;
 		it = find(rem.begin(), rem.end(), remainder);
 		if (it != rem.end()) {
@@ -127,15 +126,19 @@ int cycle_length(int n) {
 
 void solve() {
 	int most = -1;
-	for (int i = 1; i <= 1000; i++)
+	int res = 0;
+	for (int i =1; i <= 1000; i++)
 	{
 		fout << i << " ";
 		int temp = cycle_length(i);
-		fout << " "<<divide1(i) << endl;
-		if (most < temp)
+		fout << " " << divide1(i) << endl;
+		if (most < temp) {
 			most = temp;
+			res = i;
+		}
+			
 	}
-	fout << most << endl;
+	fout << res<<" " <<most << endl;
 }
 
 int main() {
