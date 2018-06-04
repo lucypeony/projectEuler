@@ -1,5 +1,20 @@
 /*
 lucypeony@hotmail.com
+problem description: 
+https://projecteuler.net/problem=27
+--------------------------------------
+I want to use a clever method at first. But I was wrong. 
+So now I use a brute force method. 
+But I still made a mistake. The problem asks to calculate if n*n+n*a+b is prime. What I calculate at first is n*n+a*b+b.What a shame!
+Brute Force: a,b two for loops. 
+b must be prime. 
+
+something can be improve: 
+I can generate more primes, when I need to check if x is prime, i can check if x is in the prime array. 
+
+I make use of the fact that when n=0, the result is b. so b must be prime. 
+
+when n=1,the result is 1+a+b, I can make use of this fact as well. 
 */
 
 #include<iostream>
@@ -79,6 +94,7 @@ void solve() {
 
 	int x = -1;
 	int y, z;
+	
 	for (int a = -999; a <= 999; a++) {
 		for (auto b : p) {
 			int n = 0;
@@ -86,7 +102,7 @@ void solve() {
 			bool tempf = false;
 			do {
 				n++;
-				temp = n * n + a * b + b;
+				temp = n * n + a * n + b;
 				tempf = prime(temp);
 			} while (tempf);
 			
@@ -97,6 +113,7 @@ void solve() {
 			}
 		}
 	}
+	
 
 	for (int a = -999; a <= 999; a++) {
 		for (auto b : p) {
@@ -105,7 +122,7 @@ void solve() {
 			int temp;
 			do {
 				n++;
-				temp = n * n + a * b + b;
+				temp = n * n + a * n + b; 
 			} while (prime(temp));
 
 			if (n > x) {
@@ -123,7 +140,7 @@ void solve() {
 
 void test() {
 	ofstream fout("p27.out");
-	int a = 1, b = 41;
+	int a = -79, b = 1601;
 	for (int i = 0; i <= 1000; i++) {
 		int temp = i * i + a * i + b;
 		fout << i << " " << temp << " " << prime(temp) << endl;
