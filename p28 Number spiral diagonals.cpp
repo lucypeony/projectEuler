@@ -1,6 +1,6 @@
 /*
 lucypeony@hotmail.com
-P29 Number spiral diagonals.
+P28 Number spiral diagonals.
 ------------------------
 Brute force 
 */
@@ -20,7 +20,7 @@ void brute_force() {
 	dir d[] = { {0,1},{1,0},{0,-1},{-1,0} }; //clockwise : right, down , left, up 
 	dir temp;
 
-	static int s[N][N];//store the numbers
+	static int s[N][N];//store the numbers , add "stack" to avoid StackOverflow
 	memset(s, -1, sizeof(s));
 
 	int direction = -1;
