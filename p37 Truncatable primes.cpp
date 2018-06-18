@@ -5,6 +5,8 @@ Euler Project p37 Truncatable primes
 
 Brute Force. 
 注意分类讨论，这个在简化的时候，不要略过了。比如说safe primes里不能有5，2，可是对于小于100的话，是可以有的。
+---------------
+还可以先构建左边truncatable 的数字，也就是在后面添加3，或者7.然后判断其是否为素数同时右边truncatable.如果是，则输出。一直到有11个为止。
 */
 #include<vector>
 #include<iostream>
