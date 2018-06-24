@@ -1,7 +1,7 @@
 /*
 lucypeony@hotmail.com
 
-Euler Project p45 Pentagon numbers
+Euler Project p45 Triangular,pentagonal,and hexagonal
 */
 #include<iostream>
 #include<cmath>
