@@ -1,52 +1,54 @@
 /*
-Problem 49:Prime permutations
-*/
+lucypeony@hotmail.com
 
+Euler Project p49 Prime permutations 
+*/
 #include<iostream>
-#include<fstream>
-#include<vector>
 
 using namespace std; 
 
-vector<int> generate_primes(int n) {
-	const int N = 10000;
-	bool primes[N / 2];
-
-	for (int i = 3; i*i <= n; i += 2) {
-		if (primes[i/2])
-			for (int j = i * i; j <= n; j += 2 * i)
-				primes[j/2] = false;
+bool isPrime(int x) {
+	int i = 2;
+	while (i*i <= x) {
+		if (x%i == 0)
+			return false;
+		i++;
 	}
-
-	vector<int> res;
-	res.push_back(2);
-	for (int i = 3; i <= n; i += 2)
-		if (primes[i / 2])
-			res.push_back(i);
-	return res;
+	return true;
 }
 
-bool isPerm(int a, int b) {
-	
+bool isPermutations(int x, int y) {
+	int c[10] = { 0 };
+	int c1[10] = { 0 };
 
+	while (x != 0) {
+		c[x % 10]++;
+		x /= 10;
+	}
+
+	while (y != 0) {
+		c1[y % 10]++;
+		y /= 10;
+	}
+
+	for (int i = 0; i <= 9; i++)
+		if (c[i] != c1[i])
+			return false;
+	
+	return true; 
 }
 
 void solve() {
-	vector<int> primes = generate_primes(10000);
-	vector<int> data;
-	for (auto a : primes)
-		if (a > 1000)
-			data.push_back(a);
-
-	ofstream fout("euler.out");
-	for(auto a:data)
-		for(auto b:data)
-			for (auto c : data) {
-				if (isPerm(a, b) && isPerm(a, c)) {
-
-				}
-			}
-	fout.close();
+	int x = 1489;
+	while (1) {
+		int y = x + 3330;
+		int z = x + 6660;
+		if (isPrime(x) && isPrime(y) && isPrime(z) && isPermutations(x, y) && isPermutations(y, z)) {
+			cout << x << " " << y << " " << z << endl;
+			break;
+		}
+		x += 2;
+	}
 }
 
 int main() {
