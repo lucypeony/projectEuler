@@ -97,9 +97,9 @@ void solve() {
 	//... ... 
 	//9^1,  ... ... , 9^9
 	int ans = 0;
-	for (int i = 1; i <= 100; i++) {
+	for (int i = 1; i <= 9; i++) {
 		string s = "1";
-		for (int j = 1; j <= 100; j++) {
+		for (int j = 1; j <= 30; j++) {
 			s = bigintegerMultiply(s, i);
 			if (s.size() == j)
 			{
